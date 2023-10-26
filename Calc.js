@@ -1,8 +1,29 @@
 import { Text, Image, View, TextInput, Switch, TouchableOpacity, TouchableWithoutFeedback } from "react-native";
-import { useState } from 'react'
+import { useContext, useState } from 'react'
+import { UtilsContext } from "./context";
 
 export default function Calculadora(props) {
     const [value, setValue] = useState("")
+    const { utils, setUtils } = useContext(UtilsContext)
+    console.log("utils", utils)
+
+    function goToHistorico() {
+        
+        props.navigation.navigate("Historico")
+    }
+
+    function equal(){
+        console.log("utils.value",utils.value)
+        if(utils.value){
+            setUtils({...utils, value: [...utils.value,value+" = "+eval(value)] })
+        }else{
+            setUtils({...utils, value: [value+" = "+eval(value)] })
+        }
+       
+        setValue(eval(value))
+       
+    }
+
     return (
         <>
             <View
@@ -19,6 +40,8 @@ export default function Calculadora(props) {
                     }}
                 >
                     <View
+                    onChangeText={text => setValue(text)}
+                    value = {value}
                         style={{
                             color: 'black',
                             textAlign: 'center',
@@ -33,7 +56,8 @@ export default function Calculadora(props) {
                             justifyContent: "center",
                             alignItems: "center",
                             fontSize:"40px"
-                        }}> {value}
+                        }}> 
+                        {value}
                     </View>
                     <View
                         style={{
@@ -117,7 +141,7 @@ export default function Calculadora(props) {
                             >x</Text>
                         </TouchableOpacity>
                         <TouchableOpacity
-                            onPress={() => setValue(eval(value))}
+                            onPress={() => equal()}
 
                             style={{
                                 backgroundColor: "white",
@@ -362,7 +386,7 @@ export default function Calculadora(props) {
                             flexDirection: "row",
                             justifyContent: "space-between",
                             marginTop: "3%",
-                            width: "19%"
+                            width: "25%"
                         }}>
                         <TouchableOpacity
                             onPress={() => setValue("")}
@@ -384,7 +408,7 @@ export default function Calculadora(props) {
                             >Limpar</Text>
                         </TouchableOpacity>
                         <TouchableOpacity
-                            onPress={() => props.navigation.navigate("Historico")}
+                            onPress={() => goToHistorico()}
 
                             style={{
                                 backgroundColor: "white",

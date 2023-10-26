@@ -1,10 +1,9 @@
-import { Text, Image, View, TextInput, Switch, TouchableOpacity, TouchableWithoutFeedback } from "react-native";
-import { useState } from 'react'
+import { Text, View } from "react-native";
+import { useContext, useState } from 'react'
+import { UtilsContext } from "./context";
 
 export default function Calculadora(props) {
-    const [senha, setSenha] = useState()
-    const [inicio, setInicio] = useState(false)
-
+    const { utils, setContext } = useContext(UtilsContext)
     return (
         <>
             <View
@@ -25,6 +24,19 @@ export default function Calculadora(props) {
                             fontSize: "90px"
                         }}
                     >Histórico:</Text>
+                    {utils.value.map((item,index) =>
+                        <Text
+                        key={index}
+                        style={{
+                           marginTop: "1%",
+                           display: "flex",
+                           justifyContent: "center",
+                           alignItems: "center",
+                           fontSize:"40px",
+                           width:"100%"
+                        }}>{item}</Text>
+                    )}
+                    
                 </View>
             </View>
         </>
